@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <!-- viewport-fit=cover: usa toda la pantalla también en móviles con "notch" -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#11151c">
+  <meta name="description" content="Brújula y altímetro GPS">
+  <title>Brújula</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+
+    <!-- ===== Rumbo numérico ===== -->
+    <header class="heading">
+      <span id="heading-deg" class="heading__deg">---°</span>
+      <span id="heading-card" class="heading__card">—</span>
+    </header>
+
+    <!-- ===== Brújula ===== -->
+    <section class="compass" aria-label="Brújula">
+      <!-- Marca fija arriba: indica hacia dónde apunta el móvil -->
+      <div class="compass__lubber" aria-hidden="true"></div>
+      <!-- La rosa de los vientos se genera en app.js y gira con el rumbo -->
+      <svg id="rose" class="compass__rose" viewBox="-160 -160 320 320" aria-hidden="true"></svg>
+    </section>
+
+    <!-- ===== Datos GPS ===== -->
+    <section class="data" aria-label="Datos de posición">
+      <div class="data__item data__item--big">
+        <span class="data__label">Altitud</span>
+        <span class="data__value"><span id="alt">—</span><small> m</small></span>
+        <span class="data__sub">± <span id="alt-acc">—</span> m</span>
+      </div>
+      <div class="data__item">
+        <span class="data__label">Latitud</span>
+        <span id="lat" class="data__value data__value--sm">—</span>
+      </div>
+      <div class="data__item">
+        <span class="data__label">Longitud</span>
+        <span id="lon" class="data__value data__value--sm">—</span>
+        <span class="data__sub">± <span id="pos-acc">—</span> m</span>
+      </div>
+    </section>
+
+    <p id="status" class="status" role="status"></p>
+
+    <!-- ===== Pantalla de inicio =====
+         Los navegadores solo dejan activar sensores/GPS tras una acción del usuario -->
+    <div id="start" class="overlay">
+      <div class="overlay__box">
+        <h1>Brújula</h1>
+        <p>Usa el magnetómetro y el GPS de tu móvil. Al pulsar, el navegador te pedirá permiso de ubicación.</p>
+        <button id="start-btn" class="btn" type="button">Iniciar</button>
+        <p class="overlay__hint">Si el rumbo es raro, calibra moviendo el móvil haciendo un «8» en el aire.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

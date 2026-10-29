@@ -1,0 +1,136 @@
+/* ===== Variables de color ===== */
+:root {
+  --bg: #11151c;
+  --panel: #1a2029;
+  --line: #2c3542;
+  --text: #e8ecf1;
+  --muted: #8a96a6;
+  --north: #e5484d;     /* rojo para el norte */
+  --accent: #f5b942;    /* marca fija (línea de fe) */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Evita zoom/scroll accidental al tocar la pantalla */
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.app {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: max(20px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom));
+}
+
+/* ===== Rumbo numérico ===== */
+.heading {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-variant-numeric: tabular-nums;   /* los dígitos no "bailan" al cambiar */
+}
+.heading__deg  { font-size: 56px; font-weight: 700; letter-spacing: -1px; }
+.heading__card { font-size: 28px; font-weight: 600; color: var(--muted); min-width: 2.5em; }
+
+/* ===== Brújula ===== */
+.compass {
+  position: relative;
+  width: min(88vw, 420px);
+  aspect-ratio: 1;
+}
+.compass__rose {
+  width: 100%;
+  height: 100%;
+  /* El giro lo aplica app.js; la transición corta suaviza los saltos */
+  transition: transform 80ms linear;
+  will-change: transform;
+}
+/* Triángulo fijo arriba: "hacia aquí apunta el móvil" */
+.compass__lubber {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 20px solid var(--accent);
+  z-index: 1;
+}
+
+/* Elementos SVG de la rosa (creados en app.js) */
+.rose__bg        { fill: var(--panel); stroke: var(--line); stroke-width: 2; }
+.rose__tick      { stroke: var(--muted); stroke-width: 1; }
+.rose__tick--mid { stroke: var(--text); stroke-width: 1.5; }
+.rose__tick--big { stroke: var(--text); stroke-width: 2.5; }
+.rose__num       { fill: var(--muted); font-size: 12px; text-anchor: middle; dominant-baseline: central; }
+.rose__card      { fill: var(--text); font-size: 26px; font-weight: 700; text-anchor: middle; dominant-baseline: central; }
+.rose__card--n   { fill: var(--north); }
+.rose__card--sm  { font-size: 15px; font-weight: 600; fill: var(--muted); }
+.rose__needle-n  { fill: var(--north); }
+.rose__needle-s  { fill: var(--text); opacity: .85; }
+.rose__hub       { fill: var(--bg); stroke: var(--text); stroke-width: 2; }
+
+/* ===== Datos GPS ===== */
+.data {
+  width: min(100%, 420px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.data__item {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.data__item--big { grid-column: 1 / -1; align-items: center; }
+.data__label { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.data__value { font-size: 40px; font-weight: 700; }
+.data__value small { font-size: 18px; font-weight: 500; color: var(--muted); }
+.data__value--sm { font-size: 20px; font-weight: 600; }
+.data__sub { font-size: 13px; color: var(--muted); }
+
+.status { min-height: 1.2em; font-size: 14px; color: var(--accent); text-align: center; }
+
+/* ===== Pantalla de inicio ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 13, 18, .94);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  z-index: 10;
+}
+.overlay[hidden] { display: none; }
+.overlay__box { max-width: 340px; text-align: center; display: flex; flex-direction: column; gap: 16px; }
+.overlay__box h1 { font-size: 32px; }
+.overlay__box p { color: var(--muted); line-height: 1.45; }
+.overlay__hint { font-size: 13px; }
+
+.btn {
+  font: inherit;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 16px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--accent);
+  color: #1a1300;
+  cursor: pointer;
+}
+.btn:active { transform: scale(.98); }
